@@ -27,10 +27,13 @@ Cada módulo o *slice* sigue una estructura de capas interna:
     - **Use Cases**: Procesos específicos que el sistema puede realizar.
     - **Commands**: Objetos de transferencia para ejecutar acciones.
     - **Facades**: Puntos de entrada simplificados para la capa de aplicación.
-3.  **Infrastructure**: Implementación de detalles técnicos.
-    - **Persistence**: Implementaciones reales de los repositorios (ej. JPA, SQLite).
-    - **Mappers**: Transformación entre objetos de dominio y entidades de persistencia.
-    - **Interfaces**: Adaptadores para comunicación externa o interfaces de consola.
+3.  **Infrastructure**: Implementación de detalles técnicos y adaptadores.
+    - **Persistence**: Capa encargada de la persistencia de datos.
+        - **Entities**: Objetos que representan la estructura de la base de datos (desacoplados del dominio).
+        - **Repositories**: Implementaciones concretas de las interfaces de dominio (ej. `JpaEstudianteRepository`).
+        - **Mappers**: Lógica para convertir entre Objetos de Dominio y Entidades de Persistencia.
+    - **Interfaces**: Puntos de interacción con el usuario o sistemas externos.
+        - **UI/Menu**: Implementaciones de interfaces de consola para la navegación (ej. `MainMenu`, `EstudianteMenu`).
 
 ## 🍕 Slices del Dominio
 
@@ -60,6 +63,20 @@ DDD/
 ├── .gitignore                     # Archivos ignorados
 └── README.md                      # Este archivo
 ```
+
+## ⚙️ Detalle de Implementación Técnica
+
+### Persistencia (Persistence Layer)
+Se utiliza una estrategia de desacoplamiento total basada en el patrón **Data Mapper**:
+- **Agregados de Dominio**: Son POJOs puros sin anotaciones de JPA, lo que garantiza que el negocio sea independiente de la tecnología.
+- **Entidades de Infraestructura**: Clases en el paquete `persistence.entities` (como `EstudianteEntity`) que contienen las anotaciones de Hibernate/JPA para SQLite.
+- **Data Mappers**: La clase `EstudianteMapper` realiza la traducción bidireccional, permitiendo que el repositorio trabaje con objetos de dominio mientras persiste entidades de base de datos.
+- **Repositorios**: Se utiliza JPA/Hibernate sobre SQLite para la gestión de datos.
+
+### Interfaz de Usuario (Interfaces Layer)
+El sistema utiliza una interfaz de línea de comandos organizada de forma jerárquica:
+- **MainMenu**: Orquesta el acceso a los diferentes dominios del sistema.
+- **EstudianteMenu**: Implementa la interacción para el registro y consulta de estudiantes, comunicándose exclusivamente con la capa de aplicación a través de la `EstudianteFacade`.
 
 ---
 **Desarrollado como parte de los talleres de Ingeniería de Software - Pontificia Universidad Javeriana.**
