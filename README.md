@@ -1,0 +1,65 @@
+# Proyecto DDD - Gestión de Estados Académicos
+
+Este proyecto es una implementación robusta de los principios de **Domain-Driven Design (DDD)** para el dominio de **Estados Académicos** en una institución educativa. Se enfoca en la gestión de estudiantes, su historia académica y las transiciones de estado basadas en el rendimiento académico.
+
+## 🎯 Objetivo del Proyecto
+
+Modelar y desarrollar un sistema que gestione el ciclo de vida académico de un estudiante, aplicando patrones tácticos de DDD para garantizar que las reglas de negocio (invariantes) se mantengan consistentes y desacopladas de la infraestructura tecnológica.
+
+## 🛠️ Metodologías Utilizadas
+
+- **Domain-Driven Design (DDD)**: Centrado en el lenguaje ubicuo y el modelado del dominio.
+- **Test-Driven Development (TDD)**: El desarrollo fue guiado por pruebas unitarias y de integración para asegurar la calidad y el cumplimiento de los requisitos.
+- **Slice Architecture (Vertical Slices)**: El proyecto se organiza por "rebanadas" de funcionalidad de negocio en lugar de capas técnicas globales, lo que reduce el acoplamiento y facilita la escalabilidad.
+- **Clean Architecture**: Dentro de cada slice, se aplican las capas de la arquitectura limpia para mantener el núcleo del negocio independiente de frameworks y bases de datos.
+
+## 🧱 Estructura de Capas (Inside each Slice)
+
+Cada módulo o *slice* sigue una estructura de capas interna:
+
+1.  **Domain**: El corazón del negocio.
+    - **Model**: Agregados, Entidades y Root Aggregates.
+    - **Value Objects**: Objetos inmutables que definen atributos del dominio (ej. `Calificacion`, `Email`).
+    - **Events**: Eventos de dominio que notifican cambios de estado importantes.
+    - **Exceptions**: Excepciones de negocio específicas para evitar estados inválidos.
+    - **Repository**: Interfaces que definen el contrato para la persistencia.
+2.  **Application**: Orquestación de la lógica de negocio.
+    - **Use Cases**: Procesos específicos que el sistema puede realizar.
+    - **Commands**: Objetos de transferencia para ejecutar acciones.
+    - **Facades**: Puntos de entrada simplificados para la capa de aplicación.
+3.  **Infrastructure**: Implementación de detalles técnicos.
+    - **Persistence**: Implementaciones reales de los repositorios (ej. JPA, SQLite).
+    - **Mappers**: Transformación entre objetos de dominio y entidades de persistencia.
+    - **Interfaces**: Adaptadores para comunicación externa o interfaces de consola.
+
+## 🍕 Slices del Dominio
+
+El dominio se ha dividido en los siguientes contextos/slices:
+
+- **Estudiantes**: Gestión del perfil del estudiante y su situación académica (NORMAL, PRUEBA, EXCLUIDO).
+- **Asignaturas**: Catálogo de materias, créditos y requisitos.
+- **Shared**: Elementos comunes y transversales (`AggregateRoot`, `DomainEvent`, `ValueObjects` compartidos).
+
+## 📂 Estructura de Directorios
+
+```text
+DDD/
+├── dominio-estudiantes/           # Módulo principal de implementación
+│   ├── src/
+│   │   ├── main/java/co/edu/javeriana/ddd/
+│   │   │   ├── estudiantes/       # Slice de Estudiantes
+│   │   │   │   ├── domain/
+│   │   │   │   ├── application/
+│   │   │   │   └── infrastructure/
+│   │   │   ├── asignaturas/      # Slice de Asignaturas
+│   │   │   │   └── ...
+│   │   │   └── shared/           # Slice de Objetos Compartidos
+│   │   │       └── ...
+│   │   └── test/java/...          # Pruebas unitarias guiadas por TDD
+│   └── pom.xml                    # Configuración de Maven
+├── .gitignore                     # Archivos ignorados
+└── README.md                      # Este archivo
+```
+
+---
+**Desarrollado como parte de los talleres de Ingeniería de Software - Pontificia Universidad Javeriana.**
