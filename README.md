@@ -51,12 +51,14 @@ DDD/
 │   ├── src/
 │   │   ├── main/java/co/edu/javeriana/ddd/
 │   │   │   ├── estudiantes/       # Slice de Estudiantes
-│   │   │   │   ├── domain/
-│   │   │   │   ├── application/
+│   │   │   │   ├── domain/        # Modelos, Agregados, VOs y Eventos
+│   │   │   │   ├── application/   # Casos de Uso y Comandos
 │   │   │   │   └── infrastructure/
-│   │   │   ├── asignaturas/      # Slice de Asignaturas
+│   │   │   │       ├── persistence/ # Implementación de DB, Mappers y Entidades
+│   │   │   │       └── interfaces/  # UI de Consola (Menús)
+│   │   │   ├── asignaturas/       # Slice de Asignaturas
 │   │   │   │   └── ...
-│   │   │   └── shared/           # Slice de Objetos Compartidos
+│   │   │   └── shared/            # Slice de Objetos Compartidos
 │   │   │       └── ...
 │   │   └── test/java/...          # Pruebas unitarias guiadas por TDD
 │   └── pom.xml                    # Configuración de Maven
